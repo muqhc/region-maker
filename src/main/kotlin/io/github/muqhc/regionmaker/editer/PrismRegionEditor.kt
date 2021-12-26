@@ -27,15 +27,18 @@ class PrismRegionEditor(
         |    add click point <count> := add points <count> times where you'll click as last point
         |
         |    insert <index> point := add a point as <index>th at you
-        |    insert <index> click point := add a point as <index>th where you'll click
         |    insert <index> point <x> <z> := add a point as <index>th at (<x>,<z>)
+        |    insert <index> click point := add a point as <index>th where you'll click
+        |    insert <index> click point <count> := add a point as <index>th where you'll click <count> times
         |    
-        |    remove near point := remove nearest point ${TODO("Is Not Implemented Yet")}
-        |    remove point <index> := remove <index>th point ${TODO("Is Not Implemented Yet")}
+        |    remove near point := remove nearest point ${ ""/*TODO"Is Not Implemented Yet"*/ }
+        |    remove point <index> := remove <index>th point ${ ""/*TODO"Is Not Implemented Yet"*/ }
         |    
-        |    set center := set center node where you are ${TODO("Is Not Implemented Yet")}
-        |    set center <x> <z> := set center node at (<x>,<z>) ${TODO("Is Not Implemented Yet")}
-        |    set click center := set center node where you'll click ${TODO("Is Not Implemented Yet")}
+        |    set center := set center node where you are ${ ""/*TODO"Is Not Implemented Yet"*/ }
+        |    set center at near point := set center node at nearest point ${ ""/*TODO"Is Not Implemented Yet"*/ }
+        |    set center at point <index> := set center node at <index>th point ${ ""/*TODO"Is Not Implemented Yet"*/ }
+        |    set center <x> <z> := set center node at (<x>,<z>) ${ ""/*TODO"Is Not Implemented Yet"*/ }
+        |    set click center := set center node where you'll click ${ ""/*TODO"Is Not Implemented Yet"*/ }
         |    
         |    get points := show a message, points of the region
         |    
@@ -76,16 +79,18 @@ class PrismRegionEditor(
                 promiseQueueWhenClickEvent.clear()
                 promiseQueueWhenClickEvent += {
                     it.player.rayTraceBlocks(15.0)?.hitPosition?.run {
-                        region.insertPoint(willAddIndex ?: region.points.count(), x, z)
+                        if (willAddIndex != null) region.insertPoint(willAddIndex, x, z)
+                        else region.addPoint(x, z)
                     }
                 }
             }
             3 -> {
                 promiseQueueWhenClickEvent.clear()
-                for (i in 1..commandArgsTail[3].toInt()) {
+                for (i in 1..commandArgsTail[2].toInt()) {
                     promiseQueueWhenClickEvent += {
                         it.player.rayTraceBlocks(15.0)?.hitPosition?.run {
-                            region.insertPoint(willAddIndex ?: region.points.count(), x, z)
+                            if (willAddIndex != null) region.insertPoint(willAddIndex, x, z)
+                            else region.addPoint(x, z)
                         }
                     }
                 }

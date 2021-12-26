@@ -6,6 +6,7 @@ import io.github.muqhc.regionmaker.plugin.RegionMakerPlugin
 import io.github.muqhc.regionmaker.region.Region
 import io.github.muqhc.regionmaker.render.RegionRenderer
 import net.md_5.bungee.api.ChatColor
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -16,7 +17,7 @@ import java.util.*
 
 abstract class RegionEditor<in SupportRegion : Region,in SupportRenderer : RegionRenderer<SupportRegion>>(
     open val plugin: Plugin
-) : Listener {
+) {
     abstract val player: Player
     abstract val region: @UnsafeVariance SupportRegion
     abstract val renderer: @UnsafeVariance SupportRenderer
@@ -24,6 +25,8 @@ abstract class RegionEditor<in SupportRegion : Region,in SupportRenderer : Regio
     abstract val commandRegex: Regex
 
     abstract val document: String
+
+    var canRunThisInteractEvent: Boolean = true
 
     open val renderingCycle = object : BukkitRunnable() {
         override fun run() {
@@ -80,18 +83,21 @@ abstract class RegionEditor<in SupportRegion : Region,in SupportRenderer : Regio
         onDisable()
     }
 
-    @EventHandler
-    fun onPlayerInteract(event: PlayerInteractEvent) {
-        promiseQueueWhenClickEvent.poll()(event)
-        onClick(event)
-    }
-
     open fun onInitialize() {}
 
     abstract fun onCommand(command: String)
 
     open fun onDisable() {}
 
+    fun onInteract(event: PlayerInteractEvent) {
+        canRunThisInteractEvent = !canRunThisInteractEvent
+        if (canRunThisInteractEvent) return
+        previewOnClick(event)
+        promiseQueueWhenClickEvent.poll()?.invoke(event)
+        onClick(event)
+    }
+
+    open fun previewOnClick(event: PlayerInteractEvent) {}
     open fun onClick(event: PlayerInteractEvent) {}
 
 }

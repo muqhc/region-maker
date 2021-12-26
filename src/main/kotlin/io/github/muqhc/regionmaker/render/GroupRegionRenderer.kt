@@ -13,6 +13,13 @@ class GroupRegionRenderer(override val player: Player, override val region: Grou
         }
     }
 
+    fun update() {
+        innerRenderers = region.regions.map { it.getDefaultSupportingRenderer(player) }
+        innerRenderers.forEach {
+            it.initialize()
+        }
+    }
+
     override fun onRender() {
         innerRenderers.forEach {
             it.render()

@@ -28,8 +28,8 @@ class GroupRegionEditor(
     override fun onCommand(command: String) {
         val commandArgs = command.split(' ')
         when(commandArgs[0]){
-            "add" -> region.regions.add(regionMakerPlugin.regionsManager.getRegion(commandArgs[2])!!)
-            "remove" -> region.regions.remove(regionMakerPlugin.regionsManager.getRegion(commandArgs[2])!!)
+            "add" -> region.regions.add(regionMakerPlugin.regionsManager.getRegion(commandArgs[2])!!).also { renderer.update() }
+            "remove" -> region.regions.remove(regionMakerPlugin.regionsManager.getRegion(commandArgs[2])!!).also { renderer.update() }
         }
     }
 

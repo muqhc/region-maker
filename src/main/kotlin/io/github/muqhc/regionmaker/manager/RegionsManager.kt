@@ -14,4 +14,5 @@ interface RegionsManager {
     fun getRegion(name: String) = regions[name]
 
     fun removeRegion(name: String) = regions.remove(name)
+    fun removeRegion(region: Region) = regions.remove(region.name)
 }

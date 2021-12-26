@@ -20,6 +20,9 @@ internal object KommandRegionMaker {
     private fun addEditor(plugin: Plugin, player: Player, region: Region, editingManager: EditingManager) =
         editingManager.addEditor(player, region.getDefaultSupportingEditor(plugin, player))
 
+    private fun removeRegion(region: Region, regionsManager: RegionsManager) =
+        regionsManager.removeRegion(region)
+
     private fun orderEditorCommand(command: String, editor: RegionEditor<*,*>) =
         editor.orderCommand(command.lowercase())
 
@@ -32,9 +35,6 @@ internal object KommandRegionMaker {
 
 
     fun register(plugin: RegionMakerPlugin, regionsManager: RegionsManager, editingManager: EditingManager) {
-
-        fun Player.getUsingEditor() =
-            plugin.editingManager.getEditor(uniqueId)
 
         plugin.run {
 
@@ -55,9 +55,26 @@ internal object KommandRegionMaker {
                     permission("region-maker.commands")
 
                     then("make"){
+                        requires { playerOrNull != null }
                         then("type" to regionTypeMapArgument,"name" to string()){
                             executes {
                                 addRegion(it["name"], it["type"], regionsManager)
+                                editingManager.removeEditor(player.uniqueId)
+                                addEditor(plugin, player, regionsManager.getRegion(it["name"])!!, editingManager)
+                                regionsManager.getRegion(it["name"])?.run {
+                                    sender.sendMessage("${ChatColor.AQUA}(${this::class.simpleName})\"${name}\" is created and being edited by you")
+                                }
+                            }
+                        }
+                    }
+
+                    then("create"){
+                        then("type" to regionTypeMapArgument,"name" to string()){
+                            executes {
+                                addRegion(it["name"], it["type"], regionsManager)
+                                regionsManager.getRegion(it["name"])?.run {
+                                    sender.sendMessage("${ChatColor.AQUA}(${this::class.simpleName})\"${name}\" is created")
+                                }
                             }
                         }
                     }
@@ -66,7 +83,7 @@ internal object KommandRegionMaker {
                         requires { playerOrNull != null }
                         then("target-region" to regionArgument){
                             executes {
-                                plugin.editingManager.removeEditor(player.uniqueId)
+                                editingManager.removeEditor(player.uniqueId)
                                 addEditor(plugin, player, it["target-region"], editingManager)
                             }
                         }
@@ -94,9 +111,9 @@ internal object KommandRegionMaker {
                     }
 
                     then("remove"){
-                        then("name" to string()){
+                        then("name" to regionArgument){
                             executes {
-                                regionsManager.removeRegion(it[name])
+                                removeRegion(it["name"], regionsManager)
                             }
                         }
                     }
@@ -127,7 +144,7 @@ internal object KommandRegionMaker {
                     }
                     then("break"){
                         executes {
-                            plugin.editingManager.removeEditor(player.uniqueId) //TODO: delete the editor
+                            editingManager.removeEditor(player.uniqueId)
                         }
                     }
                 }

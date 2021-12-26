@@ -20,4 +20,8 @@ interface EditingManager {
         editingPlayersMap[uuid]?.disable()
         editingPlayersMap.remove(uuid)
     }
+
+    fun removeEditor(editor: RegionEditor<*, *>) {
+        removeEditor(editor.player.uniqueId)
+    }
 }

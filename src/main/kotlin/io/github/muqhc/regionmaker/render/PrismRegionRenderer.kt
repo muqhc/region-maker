@@ -11,6 +11,8 @@ class PrismRegionRenderer(override val player: Player, override val region: Pris
     var times = 0
     override fun onRender() {
         region.run {
+            if (points.isEmpty()) return
+
             var crossCount = 0
             val futurePoints = points.drop(1) + points.first()
             val pointPairs = points zip futurePoints
