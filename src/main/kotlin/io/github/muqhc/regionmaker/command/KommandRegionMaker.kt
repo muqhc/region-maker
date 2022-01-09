@@ -94,7 +94,7 @@ internal object KommandRegionMaker {
                             sender.sendMessage(
                                 regionsManager.getRegionsAsImmutable().map {
                                     "${it.key} : ${it.value::class.simpleName}"
-                                }.joinToString("\n")
+                                }.joinToString("\n","\n")
                             )
                         }
                     }

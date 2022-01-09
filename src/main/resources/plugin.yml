@@ -6,3 +6,4 @@ libraries:
   - org.jetbrains.kotlin:kotlin-stdlib:1.6.0
   - org.jetbrains.kotlin:kotlin-reflect:1.6.0
   - io.github.monun:kommand:2.8.0
+  - io.github.muqhc:runction:0.2.0

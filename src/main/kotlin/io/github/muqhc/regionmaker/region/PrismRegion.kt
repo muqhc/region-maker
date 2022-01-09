@@ -24,9 +24,7 @@ class PrismRegion(override val name: String): Region, Polygon() {
     override fun getDefaultSupportingRenderer(player: Player): RegionRenderer<*> =
         PrismRegionRenderer(player,this)
 
-    override fun isInside(xyz: Triple<Double,Double,Double>): Boolean {
-
-        val (x,y,z) = xyz
+    override fun isInside(x: Double, y: Double, z: Double): Boolean {
 
         bottomY?.let { if (it>y) return false }
         topY?.let { if (it<y) return false }

@@ -8,8 +8,9 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import org.bukkit.util.Vector
+import java.io.Serializable
 
-interface Region {
+interface Region : Serializable {
 
     val name: String
 
@@ -20,9 +21,10 @@ interface Region {
 
     fun getDefaultSupportingRenderer(player: Player): RegionRenderer<*>
 
-    infix fun isInside(xyz: Triple<Double,Double,Double>): Boolean
-    infix fun isInside(vector3D: Vector): Boolean = vector3D.run{ isInside(Triple(x,y,z)) }
-    infix fun isInside(location: Location): Boolean = location.run{ isInside(Triple(x,y,z)) }
+    fun isInside(x: Double, y: Double, z: Double): Boolean
+    infix fun isInside(xyz: Triple<Double,Double,Double>): Boolean = xyz.run{ isInside(first, second, third) }
+    infix fun isInside(vector3D: Vector): Boolean = vector3D.run{ isInside(x,y,z) }
+    infix fun isInside(location: Location): Boolean = location.run{ isInside(x,y,z) }
     infix fun isInside(block: Block): Boolean = isInside(block.location)
     infix fun isInside(entity: Entity): Boolean = isInside(entity.location)
 }

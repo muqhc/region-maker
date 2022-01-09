@@ -23,9 +23,9 @@ class GroupRegion(override val name: String) : Region {
     override fun getDefaultSupportingRenderer(player: Player): RegionRenderer<*> =
         GroupRegionRenderer(player, this)
 
-    override fun isInside(xyz: Triple<Double,Double,Double>): Boolean {
+    override fun isInside(x: Double, y: Double, z: Double): Boolean {
         regions.forEach {
-            if (it isInside xyz) return true
+            if (it.isInside(x,y,z)) return true
         }
         return false
     }

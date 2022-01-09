@@ -19,6 +19,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
 
     implementation("io.github.monun:kommand-api:2.8.0")
+    implementation("io.github.muqhc:runction:0.2.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
