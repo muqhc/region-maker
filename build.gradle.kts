@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.6.0"
-    kotlin("plugin.serialization") version "1.6.0"
+    kotlin("jvm") version "1.8.21"
+    kotlin("plugin.serialization") version "1.8.21"
     id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
@@ -16,15 +16,12 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
 
-    implementation("io.github.monun:kommand-api:2.8.0")
-    implementation("io.github.muqhc:runction:0.2.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
+    implementation(kotlin("stdlib"))
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
-    testImplementation("org.mockito:mockito-core:4.1.0")
+    implementation("io.github.monun:kommand-api:3.1.7")
+    implementation("io.github.muqhc:runction:0.3.0")
 }
 
 project.extra.set("packageName", name.replace("-", ""))

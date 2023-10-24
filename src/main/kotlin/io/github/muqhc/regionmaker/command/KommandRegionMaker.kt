@@ -52,8 +52,6 @@ internal object KommandRegionMaker {
                         }
                     }
 
-                    permission("region-maker.commands")
-
                     then("make"){
                         requires { playerOrNull != null }
                         then("type" to regionTypeMapArgument,"name" to string()){
