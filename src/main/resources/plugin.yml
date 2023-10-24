@@ -4,5 +4,5 @@ main: ${group}.${packageName}.plugin.${pluginName}Plugin
 libraries:
   - org.jetbrains.kotlin:kotlin-stdlib:1.8.21
   - org.jetbrains.kotlin:kotlin-reflect:1.8.21
-  - io.github.monun:kommand:3.1.7
+  - io.github.monun:kommand-core:3.1.7
   - io.github.muqhc:runction:0.3.0
